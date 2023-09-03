@@ -14,10 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: install pywin32
-      run: pip install pywin32
+    - name: install dependencies
+      run: pip install -r requirements.txt
 
     - name: detect locales from python
-      shell: python
-      run: |
-        import pywin32
+      run: python detect-locale.py
