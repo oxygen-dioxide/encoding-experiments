@@ -28,4 +28,4 @@ jobs:
     - name: run
       run: |
         chcp ${{ matrix.encoding.codepage }}
-        dotnet run csharp
+        dotnet run --project csharp/EncodingExperiments.csproj
