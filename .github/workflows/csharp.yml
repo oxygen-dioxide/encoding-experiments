@@ -3,7 +3,7 @@ on:
 
 jobs:
   pr-test:
-    runs-on: ${{ matrix.os.runs-on }}
+    runs-on: windows-latest
 
     strategy:
       fail-fast: false
