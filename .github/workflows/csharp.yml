@@ -1,0 +1,32 @@
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  pr-test:
+    runs-on: ${{ matrix.os.runs-on }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        encoding: 
+          - codepage: "1252"
+          - codepage: "1251"
+          - codepage: "943"
+          - codepage: "1386"
+          - codepage: "1363"
+          - codepage: "1373"
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          6.0.x
+          8.0.x
+
+    - name: run
+      run: |
+        chcp ${{ matrix.encoding.codepage }}
+        dotnet run csharp
