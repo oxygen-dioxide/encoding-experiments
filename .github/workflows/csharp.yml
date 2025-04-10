@@ -9,12 +9,22 @@ jobs:
       fail-fast: false
       matrix:
         encoding: 
-          - codepage: "1252"
+          - codepage: "1250"
           - codepage: "1251"
+          - codepage: "1252"
+          - codepage: "1253"
+          - codepage: "1254"
+          - codepage: "1255"
+          - codepage: "1256"
+          - codepage: "1257"
+          - codepage: "1258"
           - codepage: "943"
+          - codepage: "437"
+          - codepage: "850"
           - codepage: "1386"
           - codepage: "1363"
           - codepage: "1373"
+          - codepage: "65001"
 
     steps:
     - uses: actions/checkout@v1
