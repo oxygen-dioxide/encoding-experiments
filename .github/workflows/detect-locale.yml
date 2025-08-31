@@ -19,3 +19,19 @@ jobs:
 
     - name: detect locales from python
       run: python detect-locale.py
+    
+    - name: install wine
+      run: |
+        sudo dpkg --add-architecture i386
+        wget -qO - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
+        sudo add-apt-repository ppa:cybermax-dexter/sdl2-backport
+        sudo apt-add-repository "deb https://dl.winehq.org/wine-builds/ubuntu $(lsb_release -cs) main"
+        sudo apt install --install-recommends winehq-stable
+
+    - name: install python in wine
+      run: |
+        wget https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe
+        wine python-3.12.0-amd64.exe /quiet InstallAllUsers=1 PrependPath=1
+
+    - name: detect ja-jp locale from python in wine
+      run: LC_ALL="ja_JP" wine python detect-locale.py
