@@ -1,0 +1,34 @@
+on:
+  workflow_dispatch:
+    inputs: {}
+
+jobs:
+  locale-detect:
+    runs-on: ${{ matrix.os.runs-on }}
+    strategy:
+      matrix:
+        os: 
+          - runs-on: ubuntu-latest
+            arch: linux-x64
+
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: install wine
+      run: |
+        dpkg --add-architecture i386
+        wget -qO - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
+        add-apt-repository ppa:cybermax-dexter/sdl2-backport
+        apt-add-repository "deb https://dl.winehq.org/wine-builds/ubuntu $(lsb_release -cs) main"
+        apt install --install-recommends winehq-stable
+
+    - name: install python in wine
+      run: |
+        wget https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe
+        wine python-3.12.0-amd64.exe /quiet InstallAllUsers=1 PrependPath=1
+
+    - name: install dependencies
+      run: wine pip install -r requirements.txt
+
+    - name: detect ja-jp locale from python in wine
+      run: LC_ALL="ja_JP" wine python detect-locale.py
